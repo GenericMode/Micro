@@ -1,5 +1,5 @@
-//The Data Model (or DTO/Model layer) focuses on data representation and communication (whether for storage, transfer, 
-//or API exposure).
+//The Data Model (or DTO/Model layer) focuses on data representation and communication 
+//(whether for storage, transfer, or API exposure).
 
 using System;
 using System.ComponentModel.DataAnnotations;
