@@ -65,8 +65,8 @@ namespace OrderApi
                         services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
                         services.AddTransient<IOrderRepository, OrderRepository>();
 
-                        //services.AddTransient<IValidator<CreateCustomerModel>, CreateCustomerModelValidator>();
-                        //services.AddTransient<IValidator<UpdateCustomerModel>, UpdateCustomerModelValidator>();
+                        //services.AddTransient<IValidator<CreateOrderModel>, CreateOrderModelValidator>();
+                        //services.AddTransient<IValidator<UpdateOrderModel>, UpdateOrderModelValidator>();
 
                         // Other necessary services (e.g., controllers)
                         services.AddControllers()
@@ -90,6 +90,9 @@ namespace OrderApi
 
                         //AutoMapper
                         services.AddAutoMapper(typeof(Program));
+
+                        
+                        webBuilder.UseUrls("http://localhost:6020", "http://0.0.0.0:6020");
 
                     })
 
@@ -123,10 +126,16 @@ namespace OrderApi
                         app.UseEndpoints(endpoints =>
                         {
                             endpoints.MapControllers();  // This maps the controllers to endpoints
+                                    // Redirect root to Swagger UI
+                            endpoints.MapGet("/", context =>
+                            {
+                                context.Response.Redirect("/swagger/index.html");
+                                return Task.CompletedTask;
+                            });
                         });
-                    });
                 });
             
+    });
     }
 }   
 

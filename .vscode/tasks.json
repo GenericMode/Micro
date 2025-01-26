@@ -1,0 +1,24 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+	  {
+		"label": "build-openapi",
+		"command": "dotnet",
+		"args": ["build", "${workspaceFolder}/OpenAPI"],
+		"type": "shell",
+		"problemMatcher": "$msCompile"
+	  },
+	  {
+		"label": "build-warehouseapi",
+		"command": "dotnet",
+		"args": ["build", "${workspaceFolder}/WarehouseAPI"],
+		"type": "shell",
+		"problemMatcher": "$msCompile"
+	  },
+	  {
+		"label": "build-all",
+		"dependsOn": ["build-openapi", "build-openapi"]
+	  }
+	]
+  }
+  

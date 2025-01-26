@@ -1,0 +1,44 @@
+{
+    "version": "0.2.0",
+    "compounds": [
+        {
+          "name": "Run Both Projects",
+          "configurations": ["OrderAPI", "WarehouseAPI"]
+        }
+      ],
+    "configurations": [
+      {
+        "name": "OrderAPI",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build-all",
+        "program": "${workspaceFolder}/OrderAPI/bin/Debug/net8.0/OrderAPI.dll",
+        "cwd": "${workspaceFolder}/OrderAPI",
+        "stopAtEntry": false,
+        "serverReadyAction": {
+          "action": "openExternally",
+          "pattern": "\\bNow listening on: (https?://\\S+)"
+        },
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        }
+      },
+      {
+        "name": "WarehouseAPI",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build",
+        "program": "${workspaceFolder}/WarehouseAPI/bin/Debug/net8.0/WarehouseAPI.dll",
+        "cwd": "${workspaceFolder}/WarehouseAPI",
+        "stopAtEntry": false,
+        "serverReadyAction": {
+          "action": "openExternally",
+          "pattern": "\\bNow listening on: (https?://\\S+)"
+        },
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        }
+      }
+    ]
+  }
+  

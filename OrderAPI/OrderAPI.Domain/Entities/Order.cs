@@ -19,16 +19,16 @@ namespace OrderAPI.Domain.Entities
 
         // Parameterless constructor
         public Order() { }
-         public Order(Guid Id, string CompanyName, int? ProductId, string ProductName, int? ProductQuantity, DateTime? OrderDate, StatusList StatusId)
-        {
-            Id = Id;
-            CompanyName = CompanyName;
-            ProductId  = ProductId;
-            ProductName  = ProductName;
-            ProductQuantity = ProductQuantity;
-            OrderDate = OrderDate;
-            StatusId = StatusId;
-        }
+        //public Order(Guid Id, string CompanyName, int? ProductId, string ProductName, int? ProductQuantity, DateTime? OrderDate, StatusList StatusId)
+        //{
+        //    Id = Id;
+        //    CompanyName = CompanyName;
+        //    ProductId  = ProductId;
+        //    ProductName  = ProductName;
+        //    ProductQuantity = ProductQuantity;
+        //    OrderDate = OrderDate;
+        //    StatusId = StatusId;
+        //}
      
     // Methods to transition states can be added here
     public void BookOrder()
