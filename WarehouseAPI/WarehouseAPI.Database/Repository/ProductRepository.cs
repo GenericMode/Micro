@@ -33,9 +33,9 @@ namespace WarehouseAPI.Database.Repository
 
         
 
-        public async Task<Order> GetOrderByProdIdAsync(int? productid, CancellationToken cancellationToken)
+        public async Task<List<Order>> GetOrderByProdIdAsync(int? productid, CancellationToken cancellationToken)
         {
-            return await _orderContext.Order.FirstOrDefaultAsync(x => x.ProductId == productid, cancellationToken); 
+            return await _orderContext.Order.Where(x => x.ProductId == productid).ToListAsync(cancellationToken);
         }
     }
 }

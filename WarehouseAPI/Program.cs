@@ -140,6 +140,7 @@ namespace WarehouseApi
                         app.UseStaticFiles();
                         app.UseRouting();
                         app.UseAuthorization();
+                        app.UseDeveloperExceptionPage();
                         app.UseEndpoints(endpoints =>
                         {
                             endpoints.MapControllers();  // This maps the controllers to endpoints
@@ -149,6 +150,17 @@ namespace WarehouseApi
                                 return Task.CompletedTask;
                             });
                         });
+
+                        app.Use(async (context, next) =>
+                            {
+                                // Log request details
+                                Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
+
+                                await next();
+
+                                // Log response details
+                                Console.WriteLine($"Response: {context.Response.StatusCode}");
+                            });
                     });
                 });
             

@@ -17,6 +17,7 @@ using OrderAPI;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using WarehouseAPI.Infrastructure;
+using System.Collections.Concurrent;
 
 
 namespace WarehouseAPI.Controllers
@@ -190,12 +191,12 @@ namespace WarehouseAPI.Controllers
                 /// 3) If there are several orders with that ProductId, it should cancel all the orders.
                 
                 
-                var orderEntity = await _mediator.Send(new GetOrderByProdIdQuery
+                var orderEntities = await _mediator.Send(new GetOrderByProdIdQuery
                 {
                     ProductId = productId
                 });
 
-                if (orderEntity == null)
+                if (orderEntities == null)
                 {
                     Console.WriteLine("Order not found with the Product id {Product.ProductId}.");
                     return NotFound($"No order found with the Product id {productId}");
@@ -203,48 +204,52 @@ namespace WarehouseAPI.Controllers
             
                 else
                 {
-                Console.WriteLine($"Fetched Order: {JsonConvert.SerializeObject(orderEntity)}");
+                Console.WriteLine($"Fetched Order: {JsonConvert.SerializeObject(orderEntities)}");
                 }
 
-                
-                try
-                {   
-                    // Map the orderEntity to UpdateOrderModel 
-                    orderEntity.StatusId = (StatusList.StatusListEnum)5;
-                    var updateOrderModel = _mapper.Map<UpdateOrderModel>(orderEntity);
-
-
-                    // Debugging: Ensure mapping worked correctly
-                    Console.WriteLine($"Mapped Order: {JsonConvert.SerializeObject(updateOrderModel)}");
-
-                    // Map UpdateOrderModel to Order
-                    var order = _mapper.Map<Order>(updateOrderModel);
-
-                    // Debugging
-                    Console.WriteLine($"Mapped Order: {JsonConvert.SerializeObject(order)}");
-                     
-                       
-                    var result = await _mediator.Send(new PutOrderByIdQuery
-                    {
-                    
-                        Order = order // Update the order details with the new values
-
-                            //Id = order.Id,
-                            //ProductId = updateOrderModel.ProductId,
-                            //Quantity = updateOrderModel.Quantity,
-                            //StatusID = 5 // for status code 
-                    });
-
-                    Console.WriteLine("Order updated.");
-                    return Ok($"Product deleted and associated order updated successfully.");
-
-                    
-                }
-                catch (Exception ex)
+                var results = new ConcurrentBag<Order>();
+                //var tasks = orderEntities.Select(async orderEntity =>
+                //foreach (var orderEntity in orderEntities)
+                await Parallel.ForEachAsync(orderEntities, async (orderEntity, cancellationToken) =>
                 {
-                    Console.WriteLine($"Error updating order: {ex.Message}");
-                    return StatusCode(500, $"Error: {ex.Message}");
-                }
+                    try
+                    {   
+                        
+                        // Map the orderEntity to UpdateOrderModel 
+                        orderEntity.StatusId = (StatusList.StatusListEnum)5;
+                        var updateOrderModel = _mapper.Map<UpdateOrderModel>(orderEntity);
+
+
+                        // Debugging: Ensure mapping worked correctly
+                        Console.WriteLine($"Mapped Order: {JsonConvert.SerializeObject(updateOrderModel)}");
+
+                        // Map UpdateOrderModel to Order
+                        var order = _mapper.Map<Order>(updateOrderModel);
+
+                        // Debugging
+                        Console.WriteLine($"Mapped Order: {JsonConvert.SerializeObject(order)}");
+                        
+                        
+                        var result = await _mediator.Send(new PutOrderByIdQuery
+                        {
+                        
+                            Order = order // Update the order details with the new values
+
+                        });
+
+                        Console.WriteLine("Order updated.");
+                        results.Add(result);
+                        //return Ok($"Product deleted and associated order updated successfully.");
+
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error updating order: {ex.Message}");
+                        //return StatusCode(500, $"Error: {ex.Message}");
+                    }
+                });
+               return Ok(new { message = "Orders processed successfully", data = results });
                 
             
             }

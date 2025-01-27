@@ -6,7 +6,7 @@ using MediatR;
 
 namespace WarehouseAPI.Service.Query
 {
-    public class GetOrderByProdIdQuery : IRequest<Order>
+    public class GetOrderByProdIdQuery : IRequest<List<Order>>
     {
         public int? ProductId { get; set; }
     }

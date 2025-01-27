@@ -11,7 +11,7 @@ using AutoMapper;
 
 namespace WarehouseAPI.Service.Query
 {
-    public class GetOrderByProdIdHandler : IRequestHandler<GetOrderByProdIdQuery, Order>
+    public class GetOrderByProdIdHandler : IRequestHandler<GetOrderByProdIdQuery, List<Order>>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IProductRepository _productRepository;
@@ -23,14 +23,14 @@ namespace WarehouseAPI.Service.Query
             _mapper = mapper;
         }
 
-        public async Task<Order> Handle(GetOrderByProdIdQuery request, CancellationToken cancellationToken)
+        public async Task<List<Order>> Handle(GetOrderByProdIdQuery request, CancellationToken cancellationToken)
         {
-            var orderEntity = await _productRepository.GetOrderByProdIdAsync(request.ProductId, cancellationToken);
+            var orderEntities = await _productRepository.GetOrderByProdIdAsync(request.ProductId, cancellationToken);
 
             // Map to the Order model and return it for use in the following process (change calling web-service etc)
-            var order = _mapper.Map<Order>(orderEntity);
+            var orders = _mapper.Map<List<Order>>(orderEntities);
 
-            return order;
+            return orders;
         }
     }
 }

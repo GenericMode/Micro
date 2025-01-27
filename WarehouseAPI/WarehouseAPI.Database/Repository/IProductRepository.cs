@@ -12,7 +12,7 @@ namespace WarehouseAPI.Database.Repository
     public interface IProductRepository: IRepository<Product>
     {
         Task<Product> GetProductByIdAsync(Guid id, CancellationToken cancellationToken);
-        Task<Order> GetOrderByProdIdAsync(int? productid, CancellationToken cancellationToken);
+        Task<List<Order>> GetOrderByProdIdAsync(int? productid, CancellationToken cancellationToken);
     
 
     }
