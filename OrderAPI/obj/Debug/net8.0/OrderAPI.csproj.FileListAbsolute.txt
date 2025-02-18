@@ -143,3 +143,4 @@
 /Users/aleksey.nizegorodtsev/Micro/OrderAPI/bin/Debug/net8.0/Stef.Validation.dll
 /Users/aleksey.nizegorodtsev/Micro/OrderAPI/bin/Debug/net8.0/Unchase.Swashbuckle.AspNetCore.Extensions.dll
 /Users/aleksey.nizegorodtsev/Micro/OrderAPI/obj/Debug/net8.0/OrderAPI.sourcelink.json
+/Users/aleksey.nizegorodtsev/Micro/OrderAPI/bin/Debug/net8.0/RabbitMQ.Client.dll

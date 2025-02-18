@@ -31,6 +31,11 @@ namespace WarehouseAPI.Database.Repository
             return await _productContext.Product.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
+        public async Task<Product> GetProductByProdIdAsync(int? productid, CancellationToken cancellationToken)
+        {
+            return await _productContext.Product.FirstOrDefaultAsync(x => x.ProductId == productid, cancellationToken);
+        }
+
         
 
         public async Task<List<Order>> GetOrderByProdIdAsync(int? productid, CancellationToken cancellationToken)

@@ -148,3 +148,4 @@
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/OrderAPI
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/OrderAPI.dll
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/OrderAPI.pdb
+/Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/RabbitMQ.Client.dll

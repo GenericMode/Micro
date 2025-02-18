@@ -10,9 +10,12 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Data;
 using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using OrderAPI.Database;
 using OrderAPI.Domain.Entities;
+using Microsoft.Extensions.Logging;
 //using OrderApi.Infrastructure.Prometheus;
 //using OrderApi.Messaging.Send.Options.v1;
 //using OrderApi.Messaging.Send.Sender.v1;
@@ -25,7 +28,6 @@ using OrderAPI.Service.Query;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 //using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -39,8 +41,11 @@ using System.Text.Json;
 //using Prometheus;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using System.Text.Json.Serialization;
+using OrderAPI.Messaging.Send.Sender;
+using OrderAPI.Messaging.Send.Options;
+using RabbitMQ.Client;
 
-namespace OrderApi
+namespace OrderAPI
 {
     public class Program
     {
@@ -51,6 +56,12 @@ namespace OrderApi
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders(); // Clears default logging providers
+                    logging.AddConsole();     // Adds console logging
+                    logging.SetMinimumLevel(LogLevel.Information); // Ensures logs show up
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.ConfigureServices((context, services) =>
@@ -90,6 +101,75 @@ namespace OrderApi
 
                         //AutoMapper
                         services.AddAutoMapper(typeof(Program));
+
+                        //RabbitMQ
+                        var serviceClientSettingsConfig = context.Configuration.GetSection("RabbitMq");
+                        var serviceClientSettings = serviceClientSettingsConfig.Get<RabbitMqConfiguration>();
+
+                        if (serviceClientSettings == null)
+                        {
+                            throw new InvalidOperationException("RabbitMq configuration is missing in appsettings.json.");
+                        }
+                        Console.WriteLine("RabbitMq configuration loaded successfully.");
+                        
+                        services.Configure<RabbitMqConfiguration>(serviceClientSettingsConfig);
+
+                        services.AddSingleton<IOrderUpdateSender, OrderUpdateSender>();
+
+                        // Register RabbitMQ connection
+                        services.AddSingleton<IConnection>(sp =>
+                        {
+                            var logger = sp.GetRequiredService<ILogger<Program>>();
+                            try
+                            {
+                                var factory = new ConnectionFactory
+                                {
+                                    HostName = serviceClientSettings.Hostname,
+                                    UserName = serviceClientSettings.UserName,
+                                    Password = serviceClientSettings.Password,
+                                    //VirtualHost = serviceClientSettings.VirtualHost,
+                                    //DispatchConsumersAsync = true
+                                };
+
+                                // Lazy initialization of connection to ensure it's created only when needed
+                                var connection = new Lazy<Task<IConnection>>(() =>  factory.CreateConnectionAsync());
+                                logger.LogInformation("RabbitMQ connection created successfully.");
+                                Console.WriteLine("RabbitMQ connection created successfully.");
+                                return connection.Value.Result; // Block here to resolve the connection synchronously
+                            }
+                            catch (Exception ex)
+                            {
+                                logger.LogError(ex, "Failed to create RabbitMQ connection.");
+                                Console.WriteLine("RabbitMQ connection failed.");
+                                throw; // Re-throw the exception to fail the startup if the connection cannot be created
+                            }
+                           
+                        });
+
+                        // Register RabbitMQ channel
+                        services.AddSingleton<IChannel>(sp =>
+                        {
+                            var logger = sp.GetRequiredService<ILogger<Program>>();
+                            try 
+                            {
+                            var connection = sp.GetRequiredService<IConnection>();
+
+                            // Asynchronously create the channel and wait for the result
+                            var channel = new Lazy<Task<IChannel>>(() => connection.CreateChannelAsync()); // Wait synchronously for the async result
+                            logger.LogInformation("RabbitMQ channel created successfully.");
+                            return channel.Value.Result;
+                            }
+                            catch (Exception ex)
+                            {
+                                logger.LogError(ex, "Failed to create RabbitMQ channel.");
+                                throw; 
+                            }
+                           
+                            
+
+                        });
+                        
+                        
 
                         
                         webBuilder.UseUrls("http://localhost:6020", "http://0.0.0.0:6020");
@@ -133,9 +213,9 @@ namespace OrderApi
                                 return Task.CompletedTask;
                             });
                         });
-                });
+                    });
             
-    });
+                });
     }
 }   
 

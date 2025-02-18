@@ -29,6 +29,12 @@ using OrderAPI.Database.Repository;
 using OrderAPI.Domain.Entities;
 using OrderAPI.Infrastructure.AutoMapper;
 using AutoMapper;
+using WarehouseAPI.Controllers;
+using WarehouseAPI.Messaging.Receive.Options;
+using WarehouseAPI.Messaging.Receive.Receiver;
+using WarehouseAPI.Service.Services;
+using RabbitMQ.Client;
+
 
 namespace WarehouseApi
 {
@@ -68,7 +74,9 @@ namespace WarehouseApi
                             {
                             // Apply JsonConverter globally for Enums to be serialized as strings
                                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                            });
+                            })
+                            .AddApplicationPart(typeof(WarehouseController).Assembly); 
+
 
                         // Add Swagger 
                         services.AddEndpointsApiExplorer();
@@ -80,6 +88,11 @@ namespace WarehouseApi
                         services.ConfigureSwaggerGen(options =>
                         {
                             options.AddEnumsWithValuesFixFilters();
+                            options.DocInclusionPredicate((docName, apiDesc) =>
+                            {
+                                // Only include controllers in the desired namespace
+                                return apiDesc.ActionDescriptor.RouteValues["controller"]?.StartsWith("Warehouse") ?? false;
+                            });
                         });
 
                         //AutoMapper
@@ -100,6 +113,7 @@ namespace WarehouseApi
                         }
 
                         services.AddScoped<PutOrderByIdQuery>();
+                        
 
                         //HTTP Client
                         var baseAddress = context.Configuration["OrderAPI:BaseAddress"];
@@ -108,6 +122,73 @@ namespace WarehouseApi
                             client.BaseAddress = new Uri(baseAddress);
                             client.DefaultRequestHeaders.Accept.Add(
                             new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                        });
+
+                        //RabbitMQ
+                        var serviceClientSettingsConfig = context.Configuration.GetSection("RabbitMq");
+                        var serviceClientSettings = serviceClientSettingsConfig.Get<RabbitMqConfiguration>();
+
+                        if (serviceClientSettings == null)
+                        {
+                            throw new InvalidOperationException("RabbitMq configuration is missing in appsettings.json.");
+                        }
+                        Console.WriteLine("RabbitMq configuration loaded successfully.");
+                        
+                        services.Configure<RabbitMqConfiguration>(serviceClientSettingsConfig);
+                        services.AddHostedService<ProductBookedQuantityUpdateReceiver>();
+                        services.AddSingleton<IProductBookedQuantityUpdateService, ProductBookedQuantityUpdateService>();
+
+                        // Register RabbitMQ connection
+                        services.AddSingleton<IConnection>(sp =>
+                        {
+                            var logger = sp.GetRequiredService<ILogger<Program>>();
+                            try
+                            {
+                                var factory = new ConnectionFactory
+                                {
+                                    HostName = serviceClientSettings.Hostname,
+                                    UserName = serviceClientSettings.UserName,
+                                    Password = serviceClientSettings.Password,
+                                    //VirtualHost = serviceClientSettings.VirtualHost,
+                                    //DispatchConsumersAsync = true
+                                };
+
+                                // Lazy initialization of connection to ensure it's created only when needed
+                                var connection = new Lazy<Task<IConnection>>(() =>  factory.CreateConnectionAsync());
+                                logger.LogInformation("RabbitMQ connection created successfully.");
+                                Console.WriteLine("RabbitMQ connection created successfully.");
+                                return connection.Value.Result; // Block here to resolve the connection synchronously
+                            }
+                            catch (Exception ex)
+                            {
+                                logger.LogError(ex, "Failed to create RabbitMQ connection.");
+                                Console.WriteLine("RabbitMQ connection failed.");
+                                throw; // Re-throw the exception to fail the startup if the connection cannot be created
+                            }
+                           
+                        });
+
+                        // Register RabbitMQ channel
+                        services.AddSingleton<IChannel>(sp =>
+                        {
+                            var logger = sp.GetRequiredService<ILogger<Program>>();
+                            try 
+                            {
+                            var connection = sp.GetRequiredService<IConnection>();
+
+                            // Asynchronously create the channel and wait for the result
+                            var channel = new Lazy<Task<IChannel>>(() => connection.CreateChannelAsync()); // Wait synchronously for the async result
+                            logger.LogInformation("RabbitMQ channel created successfully.");
+                            return channel.Value.Result;
+                            }
+                            catch (Exception ex)
+                            {
+                                logger.LogError(ex, "Failed to create RabbitMQ channel.");
+                                throw; 
+                            }
+                           
+                            
+
                         });
 
 
