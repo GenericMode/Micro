@@ -3,6 +3,10 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <OutputType>Exe</OutputType>
+    <ExcludeAppSettings Condition="'$(ExcludeAppSettings)' == ''">false</ExcludeAppSettings>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1"/>
@@ -20,8 +24,22 @@
     <PackageReference Include="JsonConverter.System.Text.Json" Version="0.7.1"/>
     <PackageReference Include="System.Text.Json" Version="9.0.0"/>
     <PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.7.2"/>
+    <Content Update="appsettings.json">
+    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </Content>
+    <Content Update="appsettings.Development.json">
+    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../OrderAPI/OrderAPI.csproj"/>
   </ItemGroup>
+  <ItemGroup Condition="'$(ExcludeAppSettings)' == 'true'">
+  <None Remove="appsettings.json" />
+  <None Remove="appsettings.*.json" />
+</ItemGroup>
 </Project>
+
+

@@ -1,0 +1,16 @@
+auth:
+  username: postgres
+  password: "postgres"  
+  database: 
+
+# Initialize with extensions
+initdbScripts:
+  install_extensions.sql: |
+    CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+# Configure pg_hba.conf
+pgHbaConfiguration: |
+  local all all              md5
+  host  all all 0.0.0.0/0   md5
+  host  all all ::/0        md5
+

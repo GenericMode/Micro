@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "GMkHzC80aCYanuIjIV5BsWpUF+kW+TyzCm8p9gZq3l0=",
+  "Hash": "qEP9vrZBq5zLGYYlQBso+k2/C4eLp5RSqWnEcintQ+k=",
   "Source": "WarehouseAPI",
   "BasePath": "_content/WarehouseAPI",
   "Mode": "Default",
@@ -12,10 +12,10 @@
       "Source": "OrderAPI",
       "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
       "AdditionalPublishProperties": "",
-      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained",
       "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
       "AdditionalBuildProperties": "",
-      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
     }
   ],
   "DiscoveryPatterns": [],

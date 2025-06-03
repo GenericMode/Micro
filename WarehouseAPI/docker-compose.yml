@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  warehouseapi:
+    image: warehouseapi:latest
+    build:
+      context: ..
+      dockerfile: WarehouseAPI/Dockerfile
+   # volumes: #Remove volumes unless you need live code reloading
+    #  - ../OrderAPI:/app/OrderAPI     # 👈 Mount OrderAPI folder
+     # - ./WarehouseAPI/app:/app:rw
+
+      
+
+    ports:
+      - "5221:5221"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres-container;Port=5432;Database=postgreswh;Username=postgres;Password=postgres
+      - ConnectionStrings__ConnectionToOrderAPI=Host=postgres-container;Port=5432;Database=postgres;Username=postgres;Password=postgres
+      - OrderAPI__BaseAddress=http://orderapi-orderapi-1:6020/
+      - RabbitMq__Hostname=some-rabbit
+      - RabbitMq__QueueName=queueOrder1
+      - RabbitMq__UserName=guest
+      - RabbitMq__Password=guest
+
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    external: true
+
+ 

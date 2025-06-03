@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  orderapi:
+    image: orderapi:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "6020:6020"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres-container;Port=5432;Database=postgres;Username=postgres;Password=postgres
+      - RabbitMq__Hostname=some-rabbit
+      - RabbitMq__QueueName=queueOrder1
+      - RabbitMq__UserName=guest
+      - RabbitMq__Password=guest
+
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    external: true
+
+ 

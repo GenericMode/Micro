@@ -1,0 +1,42 @@
+auth:
+  username: guest       
+  password: guest       
+  existingPasswordSecret: "" 
+
+extraConfiguration: |
+  default_vhost = /
+  default_user = guest
+  default_pass = guest
+  loopback_users = none  # Allows external connections
+
+persistence:
+  enabled: true         # Retains queue data
+  size: 1Gi             # Storage size
+
+definitions:
+  enabled: true         # Enables custom queue/configuration
+  existingSecret: ""    # Not using secret
+  loadDefinitions: true
+  definitions:          
+    queues:
+      - name: queueOrder1
+        vhost: "/"
+        durable: true
+        auto_delete: false
+    permissions:
+      - user: "guest"
+        vhost: "/"
+        configure: ".*"
+        write: ".*"
+        read: ".*"
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
+
+service:
+  type: ClusterIP
+  ports:
+    amqp: 5672
+    management: 15672    

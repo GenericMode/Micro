@@ -14,12 +14,14 @@
         "outputPath": "/Users/aleksey.nizegorodtsev/Micro/OrderAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
+          "/Users/aleksey.nizegorodtsev/Micro/OrderAPI/NuGet.Config",
           "/Users/aleksey.nizegorodtsev/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "/Users/aleksey.nizegorodtsev/Micro/OrderAPI/nupkgs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

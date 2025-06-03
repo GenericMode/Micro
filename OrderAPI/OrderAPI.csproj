@@ -3,6 +3,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>true</IsPackable> 
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1"/>
@@ -21,5 +24,15 @@
     <PackageReference Include="System.Text.Json" Version="9.0.0"/>
     <PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.7.2"/>
     <PackageReference Include="RabbitMQ.Client" Version="7.0.0"/>
+    <Content Include="wwwroot\**" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="appsettings.json">
+    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </Content>
+    <Content Update="appsettings.Development.json">
+    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
+
 </Project>

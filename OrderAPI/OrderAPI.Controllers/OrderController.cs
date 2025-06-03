@@ -58,7 +58,7 @@ namespace OrderAPI.Controllers
         /// <response code="200">Returned if the order was created</response>
         /// <response code="400">Returned if the model couldn't be parsed or the order couldn't be saved</response>
         /// <response code="422">Returned when the validation failed</response>
-        /// 
+        /// AND SEND NEW ORDER TO RABBIT MQ
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
@@ -87,6 +87,7 @@ namespace OrderAPI.Controllers
         /// <response code="200">Returned if the order was updated</response>
         /// <response code="400">Returned if the model couldn't be parsed or the order couldn't be found</response>
         /// <response code="422">Returned when the validation failed</response>
+        /// AND SEND UPDATED ORDER TO RABBIT MQ
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]

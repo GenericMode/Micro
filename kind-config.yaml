@@ -1,0 +1,14 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      # Map host port 30001 to node port 30001
+      - containerPort: 30001  # NodePort used by your service
+        hostPort: 30001       # Accessible on localhost:30001
+        protocol: TCP
+
+     # Map host port 30002 to node port 30002
+      - containerPort: 30002  # NodePort used by your service
+        hostPort: 30002       # Accessible on localhost:30002
+        protocol: TCP

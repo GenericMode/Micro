@@ -172,7 +172,7 @@ namespace OrderAPI
                         
 
                         
-                        webBuilder.UseUrls("http://localhost:6020", "http://0.0.0.0:6020");
+                        webBuilder.UseUrls("http://+:6020");
 
                     })
 
@@ -180,8 +180,8 @@ namespace OrderAPI
                     {
                         var environment = app.ApplicationServices.GetService<IHostEnvironment>();
              
-                        if (environment.IsDevelopment())
-                        {
+                        //if (environment.IsDevelopment())
+                        //{
                             app.UseSwagger(c =>
                         {
                             c.SerializeAsV2 = true;
@@ -192,12 +192,12 @@ namespace OrderAPI
                                 options.RoutePrefix = "swagger"; // Swagger UI available at /swagger in production
                             });
                             app.UseDeveloperExceptionPage();
-                        }
-                        else
-                        {
-                            app.UseExceptionHandler("/Home/Error");
-                            app.UseHsts();
-                        }
+                        //}
+                        //else
+                        //{
+                        //    app.UseExceptionHandler("/Home/Error");
+                         //   app.UseHsts();
+                        //}
 
                         app.UseHttpsRedirection();
                         app.UseStaticFiles();

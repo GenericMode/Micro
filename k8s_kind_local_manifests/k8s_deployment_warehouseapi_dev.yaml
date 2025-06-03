@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: warehouseapi-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: warehouseapi
+  template:
+    metadata:
+      labels:
+        app: warehouseapi
+    spec:
+      containers:
+      - name: warehouseapi-warehouseapi-1
+        image: warehouseapi:latest
+        ports:
+        - containerPort: 5221
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: ConnectionStrings__DefaultConnection
+          value: "Host=postgres-postgresql.postgres.svc.cluster.local;Port=5432;Database=postgreswh;Username=postgres;Password=postgres"
+        - name: ConnectionStrings__ConnectionToOrderAPI
+          value: "Host=postgres-postgresql.postgres.svc.cluster.local;Port=5432;Database=postgres;Username=postgres;Password=postgres"
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        - name: RabbitMQ__Hostname
+          value: "rabbitmq.rabbitmq.svc.cluster.local"    
+        - name: RabbitMQ__UserName
+          value: "guest" 
+        - name: RabbitMQ__Password
+          value: "guest"
+        - name: RabbitMq__QueueName
+          value: "queueOrder1"
+        - name: OrderAPI__BaseAddress
+          value: "http://orderapi-service"

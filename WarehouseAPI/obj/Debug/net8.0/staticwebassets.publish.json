@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Hash": "q7pShZ5fOYw6wckAPXbkVriiMhJhyg8OXM76uP8UCs8=",
+  "Source": "WarehouseAPI",
+  "BasePath": "_content/WarehouseAPI",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "/Users/aleksey.nizegorodtsev/Micro/OrderAPI/OrderAPI.csproj",
+      "Version": 2,
+      "Source": "OrderAPI",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

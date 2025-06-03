@@ -1,3 +1,5 @@
+/Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/NuGet.Config
+/Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/launchSettings.json
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/appsettings.Development.json
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/appsettings.json
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/WarehouseAPI
@@ -40,6 +42,7 @@
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/Newtonsoft.Json.dll
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/Npgsql.dll
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/RabbitMQ.Client.dll
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/Stef.Validation.dll
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
@@ -121,10 +124,10 @@
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll
+/Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/OrderAPI.dll
+/Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/OrderAPI.pdb
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/obj/Debug/net8.0/WarehouseAPI.csproj.AssemblyReference.cache
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/obj/Debug/net8.0/WarehouseAPI.GeneratedMSBuildEditorConfig.editorconfig
-/Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/obj/Debug/net8.0/WarehouseAPI.AssemblyInfoInputs.cache
-/Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/obj/Debug/net8.0/WarehouseAPI.AssemblyInfo.cs
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/obj/Debug/net8.0/WarehouseAPI.csproj.CoreCompileInputs.cache
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/obj/Debug/net8.0/WarehouseAPI.MvcApplicationPartsAssemblyInfo.cs
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/obj/Debug/net8.0/WarehouseAPI.MvcApplicationPartsAssemblyInfo.cache
@@ -143,9 +146,3 @@
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/obj/Debug/net8.0/WarehouseAPI.pdb
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/obj/Debug/net8.0/WarehouseAPI.genruntimeconfig.cache
 /Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/obj/Debug/net8.0/ref/WarehouseAPI.dll
-/Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/OrderAPI.deps.json
-/Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/OrderAPI.runtimeconfig.json
-/Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/OrderAPI
-/Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/OrderAPI.dll
-/Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/OrderAPI.pdb
-/Users/aleksey.nizegorodtsev/Micro/WarehouseAPI/bin/Debug/net8.0/RabbitMQ.Client.dll
